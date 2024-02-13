@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50vh;
+    }
+    #count {
+      font-size: 50px;
+    }
+    button.minus,
+    button.plus {
+      margin: 10px;
+      padding: 40px;
+      font-size: 30px;
+      background-color: transparent;
+      border: 1px solid #212529;
+    }
+    .minus {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  </style>
+  <body>
+    <div class="center">
+      <button class="minus" onmousedown="startDecrement()" onmouseup="stopMoving()" onmouseleave="stopMoving()">-</button>
+      <span id="count">0</span>
+      <button class="plus" onmousedown="startIncrement()" onmouseup="stopMoving()" onmouseleave="stopMoving()">+</button> <br />
+      <button onclick="resetCount()">Reset</button>
+    </div>
+    <script>
+      let count = localStorage.getItem('count') || 0;
+      const countDisplay = document.getElementById('count');
+      let intervalId = null;
+
+      updateCountDisplay();
+
+      function startIncrement() {
+        increment();
+        intervalId = setInterval(increment, 100);
+      }
+
+      function startDecrement() {
+        decrement();
+        intervalId = setInterval(decrement, 100);
+      }
+
+      function stopMoving() {
+        clearInterval(intervalId);
+      }
+
+      function increment() {
+        count++;
+        updateCountDisplay();
+      }
+
+      function decrement() {
+        if (count > 0) {
+          count--;
+          updateCountDisplay();
+        }
+      }
+
+      function updateCountDisplay() {
+        countDisplay.textContent = count;
+        localStorage.setItem('count', count);
+      }
+
+      function resetCount() {
+        count = 0;
+        updateCountDisplay();
+      }
+    </script>
+  </body>
+</html>
